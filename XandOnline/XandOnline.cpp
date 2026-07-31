@@ -1,7 +1,8 @@
-// XandOnline.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#include <cstdlib>
+
 
 int main()
 {

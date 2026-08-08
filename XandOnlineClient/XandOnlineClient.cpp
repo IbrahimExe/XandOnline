@@ -10,7 +10,8 @@ using namespace std;
 
 char board[9];
 
-void printBoard() {
+void printBoard() 
+{
     system("cls");
     cout << "   0  1  2\n";
     for (int r = 0; r < 3; r++) {
@@ -21,7 +22,8 @@ void printBoard() {
     }
 }
 
-void sendLine(SOCKET s, string msg) {
+void sendLine(SOCKET s, string msg) 
+{
     msg += "\n";
     send(s, msg.c_str(), (int)msg.size(), 0);
 }
@@ -36,7 +38,8 @@ string recvLine(SOCKET s) {
     return result;
 }
 
-int main() {
+int main() 
+{
     for (int i = 0; i < 9; i++) board[i] = ' ';
 
     WSADATA wsaData;
@@ -68,39 +71,49 @@ int main() {
 
     bool gameOver = false;
 
-    while (!gameOver) {
+    while (!gameOver) 
+    {
         string msg = recvLine(sock);
 
-        if (msg.rfind("BOARD:", 0) == 0) {
+        if (msg.rfind("BOARD:", 0) == 0) 
+        {
             string b = msg.substr(6, 9);
             for (int i = 0; i < 9; i++) board[i] = b[i];
             printBoard();
         }
-        else if (msg == "TURN") {
+        else if (msg == "TURN") 
+        {
             bool validMove = false;
-            while (!validMove) {
+            while (!validMove) 
+            {
                 cout << "Your turn (" << mySym << "). Enter Coordinates: ";
                 string input;
                 cin >> input;
-                if (input.size() == 2 && isdigit(input[0]) && isdigit(input[1])) {
+                if (input.size() == 2 && isdigit(input[0]) && isdigit(input[1])) 
+                {
                     sendLine(sock, "MOVE:" + input);
                     string reply = recvLine(sock);
-                    if (reply == "INVALID") {
+                    if (reply == "INVALID") 
+                    {
                         cout << "Invalid move, try again.\n";
                     }
-                    else if (reply.rfind("BOARD:", 0) == 0) {
+                    else if (reply.rfind("BOARD:", 0) == 0) 
+                    {
                         string b = reply.substr(6, 9);
                         for (int i = 0; i < 9; i++) board[i] = b[i];
                         printBoard();
                         validMove = true;
                     }
                 }
-                else {
+
+                else 
+                {
                     cout << "Invalid input, try again.\n";
                 }
             }
         }
-        else if (msg.rfind("WIN:", 0) == 0) {
+        else if (msg.rfind("WIN:", 0) == 0) 
+        {
             cout << "Player " << msg[4] << " wins!\n";
             gameOver = true;
         }
